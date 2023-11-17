@@ -1,0 +1,50 @@
+# Compiled python files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# CMake and colcon build directories
+build/
+build_isolated/
+install/
+install_isolated/
+log/
+logs/
+
+# Python virtual environment
+venv/
+.env/
+.env.local
+.python-version
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Other files and folders to ignore
+.DS_Store
+Thumbs.db
+
+# ROS2 specific ignores
+/devel/
+/devel_isolated/
+/src/CMakeLists.txt
+*~
+*#
+
+# Ignore package.xml in src if you're using rosdep to manage dependencies
+# /src/package.xml
+
+# If using a global build or install space, you may want to ignore these directories as well
+/install/
+/install_isolated/
+
+# Data files
+data/
