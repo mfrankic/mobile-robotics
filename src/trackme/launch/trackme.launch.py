@@ -118,8 +118,13 @@ def generate_launch_description():
         name='trackme',
         output='screen'
     )
-
-    # TODO: Add solution node
+    
+    bb9_follower = Node(
+        package='mfrankic_5',
+        executable='bb9_follower',
+        name='bb9_follower',
+        output='screen'
+    )
 
     return LaunchDescription([
         gzserver,
@@ -128,5 +133,6 @@ def generate_launch_description():
         spawn_tb3,
         spawn_bb9,
         rviz2,
-        trackme
+        trackme,
+        bb9_follower
     ])
