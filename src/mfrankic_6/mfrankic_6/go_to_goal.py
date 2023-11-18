@@ -34,6 +34,7 @@ class GoToGoal(Node):
         return (angle + math.pi) % (2 * math.pi) - math.pi
 
     def goal_callback(self, msg):
+        self.get_logger().info(f'New goal position: {msg}')
         self.goal_position = msg.pose.position
 
     def odom_callback(self, msg):
@@ -41,10 +42,13 @@ class GoToGoal(Node):
             return
 
         current_position = msg.pose.pose.position
+        self.get_logger().info(f'Current position: {current_position}')
         dx = self.goal_position.x - current_position.x
         dy = self.goal_position.y - current_position.y
         distance_to_goal = math.sqrt(dx*dx + dy*dy)
         angle_to_goal = math.atan2(dy, dx)
+        self.get_logger().info(f'Distance to goal: {distance_to_goal}')
+        self.get_logger().info(f'Angle to goal: {angle_to_goal}')
         
         quat = msg.pose.pose.orientation
         yaw = math.atan2(2.0*(quat.z*quat.w + quat.x*quat.y), 1.0 - 2.0*(quat.y*quat.y + quat.z*quat.z))

@@ -7,9 +7,10 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     go_to_goal = Node(package="mfrankic_6", executable="go_to_goal", name="go_to_goal")
-
+    
     rviz_config_file = os.path.join(
-        get_package_share_directory("turtlebot3_description"), "rviz/model.rviz"
+        get_package_share_directory('mfrankic_6'),
+        'model.rviz'
     )
 
     rviz_cmd = Node(
