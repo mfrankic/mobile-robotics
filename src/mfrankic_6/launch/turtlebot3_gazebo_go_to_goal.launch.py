@@ -10,7 +10,7 @@ def generate_launch_description():
     
     rviz_config_file = os.path.join(
         get_package_share_directory('mfrankic_6'),
-        'model.rviz'
+        'config.rviz'
     )
 
     rviz_cmd = Node(
