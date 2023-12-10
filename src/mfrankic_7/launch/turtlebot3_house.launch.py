@@ -46,22 +46,14 @@ def generate_launch_description():
         }.items()
     )
 
-    cartographer_config_dir = os.path.join(
-        get_package_share_directory('cartographer_ros'),
-        'configuration_files',
+    slam_toolbox_launch_file = os.path.join(
+        get_package_share_directory('slam_toolbox'),
+        'launch',
+        'online_async_launch.py'
     )
-    cartographer_config = os.path.join(cartographer_config_dir, 'backpack_2d.lua')
     
-    cartographer_cmd = Node(
-        package='cartographer_ros',
-        executable='cartographer_node',
-        name='cartographer_node',
-        parameters=[cartographer_config],
-        arguments=['-configuration_directory', cartographer_config_dir],
-        remappings=[
-            ('/scan', '/scan'),
-        ],
-        output='screen'
+    slam_toolbox_cmd = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(slam_toolbox_launch_file)
     )
     
     rviz_config_file = os.path.join(
@@ -81,7 +73,7 @@ def generate_launch_description():
     ld.add_action(gzserver_cmd)
     ld.add_action(robot_state_publisher_cmd)
     ld.add_action(spawn_turtlebot_cmd)
-    ld.add_action(cartographer_cmd)
+    ld.add_action(slam_toolbox_cmd)
     ld.add_action(rviz_cmd)
 
     return ld
