@@ -29,12 +29,6 @@ def generate_launch_description():
         launch_arguments={'world': world}.items()
     )
 
-    # gzclient_cmd = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         os.path.join(pkg_gazebo_ros, 'launch', 'gzclient.launch.py')
-    #     )
-    # )
-
     robot_state_publisher_cmd = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(launch_file_dir, 'robot_state_publisher.launch.py')
@@ -51,12 +45,24 @@ def generate_launch_description():
             'y_pose': y_pose
         }.items()
     )
+
+    cartographer_config_dir = os.path.join(
+        get_package_share_directory('cartographer_ros'),
+        'configuration_files',
+    )
+    cartographer_config = os.path.join(cartographer_config_dir, 'backpack_2d.lua')
     
-    # cartographer_cmd = Node(
-    #     package='cartographer_ros',
-    #     executable='cartographer_node',
-    #     name='cartographer_node',
-    # ),
+    cartographer_cmd = Node(
+        package='cartographer_ros',
+        executable='cartographer_node',
+        name='cartographer_node',
+        parameters=[cartographer_config],
+        arguments=['-configuration_directory', cartographer_config_dir],
+        remappings=[
+            ('/scan', '/scan'),
+        ],
+        output='screen'
+    )
     
     rviz_config_file = os.path.join(
         get_package_share_directory('mfrankic_7'),
@@ -72,12 +78,10 @@ def generate_launch_description():
 
     ld = LaunchDescription()
 
-    # Add the commands to the launch description
     ld.add_action(gzserver_cmd)
-    # ld.add_action(gzclient_cmd)
     ld.add_action(robot_state_publisher_cmd)
     ld.add_action(spawn_turtlebot_cmd)
-    # ld.add_action(cartographer_cmd)
+    ld.add_action(cartographer_cmd)
     ld.add_action(rviz_cmd)
 
     return ld
